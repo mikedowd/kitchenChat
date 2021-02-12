@@ -42,10 +42,14 @@ app.action('button_click', async ({ body, ack, say }) => {
 
 app.event('user_change', async ({ event, client, context }) => {
   // say() sends a message to the channel where the event was triggered
-  console.log("EVENT : ", event);
-  console.log("CLIENT" , client);
-  console.log("CONTEXT: ", context);
-  console.log("USER CHANGED DATA");
+  //userId can be found in event.user.id
+  try{
+      var user = event.user;
+      console.log(user);
+  }
+  catch(error){
+
+  }
 });
 
 app.event('app_home_opened', async ({ event, client, context }) => {
