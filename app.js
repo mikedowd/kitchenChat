@@ -47,6 +47,13 @@ app.event('user_change', async ({ event, client, context }) => {
       var user = event.user;
       console.log("User: " , user.id);
       console.log("Status: ", user.status_text);
+
+      const result = await client.chat.postMessage({
+      channel: user.id,
+      text: "Would you like to join kitchen chat?"
+      });
+
+      console.log(result);
   }
   catch(error){
       console.log(error);
