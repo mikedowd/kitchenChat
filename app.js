@@ -48,11 +48,10 @@ app.event('user_change', async ({ event, client, context }) => {
       var status = user.profile.status_text;
       console.log("User: " , user.real_name);
       console.log("Status: ", user.profile.status_text);
-      console.log("THE REST: ", user);
 
       const result = await client.chat.postMessage({
       channel: user.id,
-      text: "Would you like to join kitchen chat?"
+      text: "Would you like to join kitchen chat? http://g.co/meet/kitchenslack1"
       });
 
       console.log(result);
