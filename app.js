@@ -45,8 +45,8 @@ app.event('user_change', async ({ event, client, context }) => {
   //userId can be found in event.user.id
   try{
       var user = event.user;
-      console.log("User: " , user);
-
+      console.log("User: " , user.real_name);
+      console.log("Status: ", user.status_text);
       const result = await client.chat.postMessage({
       channel: user.id,
       text: "Would you like to join kitchen chat?"
