@@ -39,23 +39,11 @@ app.action('button_click', async ({ body, ack, say }) => {
 
 app.action('user_change', async ({ event, client, context }) => {
   // say() sends a message to the channel where the event was triggered
-  try{
-    blocks: [
-      {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": `User data changed!`
-        },
-      }
-    ]
-  }
-  catch (error) {
-    console.error(error);
-  }
+  await ack();
+  await say(`<@${body.user.id}> changed user data`);
 });
 
-app.event('app_home_opened', async ({ event, client, context }) => {
+app.event('app_home_opened', async ({ body, ack, say }) => {
   try {
     /* view.publish is the method that your app uses to push a view to the Home tab */
     const result = await client.views.publish({
