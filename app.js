@@ -37,9 +37,9 @@ app.action('button_click', async ({ body, ack, say }) => {
   await say(`<@${body.user.id}> clicked the button`);
 });
 
-app.action('user_change', async ({ message, say }) => {
+app.action('user_change', async ({ event, client, context }) => {
   // say() sends a message to the channel where the event was triggered
-  await say({
+  try{
     blocks: [
       {
         "type": "section",
@@ -48,9 +48,11 @@ app.action('user_change', async ({ message, say }) => {
           "text": `User data changed!`
         },
       }
-    ],
-    text: `User data changed!`
-  });
+    ]
+  }
+  catch (error) {
+    console.error(error);
+  }
 });
 
 app.event('app_home_opened', async ({ event, client, context }) => {
