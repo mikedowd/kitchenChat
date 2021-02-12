@@ -15,7 +15,7 @@ app.message('hello', async ({ message, say }) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": `Hey there <@${message.user}>!`
+          "text": `What's up <@${message.user}>!`
         },
         "accessory": {
           "type": "button",
