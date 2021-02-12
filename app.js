@@ -33,8 +33,11 @@ app.message('hello', async ({ message, say }) => {
 
 app.action('button_click', async ({ body, ack, say }) => {
   // Acknowledge the action
+  console.log('~~Awaiting ack');
   await ack();
+  console.log('~~ack');
   await say(`<@${body.user.id}> clicked the button`);
+  console.log('~~awaiting say');
 });
 
 (async () => {
