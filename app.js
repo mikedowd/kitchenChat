@@ -90,15 +90,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
             "type": "section",
             "text": {
               "type": "mrkdwn",
-              "text": "This button won't do much for now but you can set up a listener for it using the `actions()` method and passing its unique `action_id`. See an example in the `examples` folder within your Bolt app."
-            },
-            "accessory": {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "text": "Click Me"
-              },
-              "action_id": "button_click"
+              "text": "With this slackbot, you can opt into a conversation with your other coworkers that are 'in the kitchen'. To do this, simply set your slack status to 'Kitchen'!"
             }
           }
         ]
