@@ -46,7 +46,7 @@ app.event('user_change', async ({ event, client, context }) => {
   try{
       var user = event.user;
       console.log("User: " , user.id);
-      console.log("Status: ", status_text);
+      console.log("Status: ", user.status_text);
   }
   catch(error){
       console.log(error);
