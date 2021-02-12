@@ -47,7 +47,7 @@ app.event('user_change', async ({ event, client, context }) => {
       if(status.includes("Kitchen")){
           const result = await client.chat.postMessage({
           channel: user.id,
-          text: "Hello ${user}, Would you like to join the kitchen chat happening now? http://g.co/meet/kitchenslack1"
+          text: "Hello, would you like to join the kitchen chat happening now? http://g.co/meet/kitchenslack1"
         });
       }
   }
