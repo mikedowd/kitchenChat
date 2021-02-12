@@ -6,6 +6,12 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET
 });
 
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+app.listen(port);
+
 // Listens to incoming messages that contain "hello"
 app.message('hello', async ({ message, say }) => {
   // say() sends a message to the channel where the event was triggered

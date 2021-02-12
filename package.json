@@ -1,7 +1,7 @@
 {
-  "name": "bolt-js-getting-started-app",
+  "name": "kitchen-chat",
   "version": "1.0.0",
-  "description": "Getting Started ⚡️ Bolt for JavaScript",
+  "description": "Kitchen Chat ⚡️ Bolt for JavaScript",
   "main": "app.js",
   "scripts": {
     "ngrok": "ngrok http 3000",
