@@ -31,10 +31,18 @@ app.message('hello', async ({ message, say }) => {
   });
 });
 
+app.event('user_change', async ({ event, client, context }) => {
+  // say() sends a message to the channel where the event was triggered
+  console.log("USER CHANGED DATA");
+});
+
 app.action('button_click', async ({ body, ack, say }) => {
   // Acknowledge the action
+  console.log('~~Awaiting ack');
   await ack();
+  console.log('~~ack');
   await say(`<@${body.user.id}> clicked the button`);
+<<<<<<< HEAD
 });
 
 app.event('user_change', async ({ event, client, context }) => {
@@ -89,6 +97,9 @@ app.event('app_home_opened', async ({ event, client, context }) => {
   catch (error) {
     console.error(error);
   }
+=======
+  console.log('~~awaiting say');
+>>>>>>> d6a6ded872593f8d76e386ea284516c633da8622
 });
 
 (async () => {
