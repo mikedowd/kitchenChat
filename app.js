@@ -37,6 +37,12 @@ app.action('button_click', async ({ body, ack, say }) => {
   await say(`<@${body.user.id}> clicked the button`);
 });
 
+app.action('user_change', async ({ body, ack, say }) => {
+  // Acknowledge the action
+  await ack();
+  await say(`User status change`);
+});
+
 app.event('app_home_opened', async ({ event, client, context }) => {
   try {
     /* view.publish is the method that your app uses to push a view to the Home tab */
