@@ -37,10 +37,9 @@ app.action('button_click', async ({ body, ack, say }) => {
   await say(`<@${body.user.id}> clicked the button`);
 });
 
-app.event('user_change', async ({ body, ack, say }) => {
+app.event('user_change', async ({ event, client, context }) => {
   // say() sends a message to the channel where the event was triggered
-  await ack();
-  await say("The user changd data");
+  console.log("USER CHANGED DATA");
 });
 
 app.event('app_home_opened', async ({ event, client, context }) => {
