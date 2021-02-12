@@ -45,10 +45,11 @@ app.event('user_change', async ({ event, client, context }) => {
   //userId can be found in event.user.id
   try{
       var user = event.user;
-      console.log(user);
+      console.log("User: " , user.id);
+      console.log("Status: ", status_text);
   }
   catch(error){
-
+      console.log(error);
   }
 });
 
