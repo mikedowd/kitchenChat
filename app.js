@@ -31,14 +31,20 @@ app.message('hello', async ({ message, say }) => {
   });
 });
 
+
 app.action('button_click', async ({ body, ack, say }) => {
   // Acknowledge the action
+  console.log('~~Awaiting ack');
   await ack();
+  console.log('~~ack');
   await say(`<@${body.user.id}> clicked the button`);
 });
 
 app.event('user_change', async ({ event, client, context }) => {
   // say() sends a message to the channel where the event was triggered
+  console.log("EVENT : ", event);
+  console.log("CLIENT" , client);
+  console.log("CONTEXT: ", context);
   console.log("USER CHANGED DATA");
 });
 
@@ -89,11 +95,11 @@ app.event('app_home_opened', async ({ event, client, context }) => {
   catch (error) {
     console.error(error);
   }
+  console.log('~~awaiting say');
 });
 
 (async () => {
   // Start your app
   await app.start(process.env.PORT || 3000);
-
-  console.log('⚡️ Bolt app is running!!');
+  console.log('⚡️ Bolt app is running!');
 })();
