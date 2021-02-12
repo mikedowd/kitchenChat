@@ -37,7 +37,7 @@ app.action('button_click', async ({ body, ack, say }) => {
   await say(`<@${body.user.id}> clicked the button`);
 });
 
-app.message('user_change', async ({ message, say }) => {
+app.action('user_change', async ({ message, say }) => {
   // say() sends a message to the channel where the event was triggered
   await say({
     blocks: [
