@@ -67,15 +67,15 @@ app.event('app_home_opened', async ({ event, client, context }) => {
             "text": {
               "type": "mrkdwn",
               "text": "This button won't do much for now but you can set up a listener for it using the `actions()` method and passing its unique `action_id`. See an example in the `examples` folder within your Bolt app."
-            }
-          },
-          "accessory": {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "text": "Click Me"
             },
-            "action_id": "button_click"
+            "accessory": {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "Click Me"
+              },
+              "action_id": "button_click"
+            }
           }
         ]
       }
