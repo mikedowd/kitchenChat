@@ -1,4 +1,5 @@
 const { App } = require('@slack/bolt');
+
 // Initializes your app with your bot token and signing secret
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -40,16 +41,18 @@ app.action('button_click', async ({ body, ack, say }) => {
 });
 
 app.event('user_change', async ({ event, client, context }) => {
+  // say() sends a message to the channel where the event was triggered
+  //userId can be found in event.user.id
   try{
-      var user = event.user.real_name;
+      var user = event.user;
       var status = user.profile.status_text;
+      console.log("User: " , user.real_name);
+      console.log("Status: ", user.profile.status_text);
 
-      console.log("USER : ", user);
-      console.log("STATUS: " , status_text);
       if(status.includes("Kitchen")){
           const result = await client.chat.postMessage({
           channel: user.id,
-          text: "Hello, would you like to join the kitchen chat happening now? http://g.co/meet/kitchenslack1"
+          text: "Would you like to join kitchen chat? http://g.co/meet/kitchenslack1"
         });
       }
   }
@@ -87,7 +90,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
             "type": "section",
             "text": {
               "type": "mrkdwn",
-              "text": "With this slackbot, you can opt into a conversation with your other coworkers that are 'in the kitchen'. To do this, simply set your slack status to 'Kitchen'!"
+              "text": "With this slackbot, you can opt into a conversation with your other coworkers that are 'in the kitchen'. To do this, simply set your slack status to kitchen"
             }
           }
         ]
