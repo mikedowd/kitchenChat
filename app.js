@@ -15,7 +15,7 @@ app.message('hello', async ({ message, say }) => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": `Hey there <@${message.user}>!`
+          "text": `What's up <@${message.user}>!`
         },
         "accessory": {
           "type": "button",
@@ -37,20 +37,9 @@ app.action('button_click', async ({ body, ack, say }) => {
   await say(`<@${body.user.id}> clicked the button`);
 });
 
-app.action('user_change', async ({ message, say }) => {
+app.event('user_change', async ({ event, client, context }) => {
   // say() sends a message to the channel where the event was triggered
-  await say({
-    blocks: [
-      {
-        "type": "section",
-        "text": {
-          "type": "mrkdwn",
-          "text": `User data changed!`
-        },
-      }
-    ],
-    text: `User data changed!`
-  });
+  console.log("USER CHANGED DATA");
 });
 
 app.event('app_home_opened', async ({ event, client, context }) => {
