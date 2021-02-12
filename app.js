@@ -1,5 +1,5 @@
 const { App } = require('@slack/bolt');
-var db = require('./db');
+var users = require('./users');
 // Initializes your app with your bot token and signing secret
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -46,10 +46,13 @@ app.event('user_change', async ({ event, client, context }) => {
       var status = user.profile.status_text;
 
       if(status.includes("Kitchen")){
-          const result = await client.chat.postMessage({
+        users.upsertUser(user.id, true);
+        const result = await client.chat.postMessage({
           channel: user.id,
           text: "Would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
         });
+      } else {
+        users.upsertUser(user.id, false);
       }
   }
   catch(error){
@@ -60,7 +63,6 @@ app.event('user_change', async ({ event, client, context }) => {
 app.event('app_home_opened', async ({ event, client, context }) => {
   try {
     /* view.publish is the method that your app uses to push a view to the Home tab */
-    db.testMethod();
     const result = await client.views.publish({
 
       /* the user that opened your app's app home */
