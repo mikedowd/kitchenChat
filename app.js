@@ -1,5 +1,5 @@
 const { App } = require('@slack/bolt');
-
+var db = require('./db');
 // Initializes your app with your bot token and signing secret
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -41,8 +41,6 @@ app.action('button_click', async ({ body, ack, say }) => {
 });
 
 app.event('user_change', async ({ event, client, context }) => {
-  // say() sends a message to the channel where the event was triggered
-  //userId can be found in event.user.id
   try{
       var user = event.user;
       var status = user.profile.status_text;
@@ -62,6 +60,7 @@ app.event('user_change', async ({ event, client, context }) => {
 app.event('app_home_opened', async ({ event, client, context }) => {
   try {
     /* view.publish is the method that your app uses to push a view to the Home tab */
+    db.testMethod();
     const result = await client.views.publish({
 
       /* the user that opened your app's app home */
