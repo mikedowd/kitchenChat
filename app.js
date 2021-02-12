@@ -44,6 +44,8 @@ app.event('user_change', async ({ event, client, context }) => {
       var user = event.user.real_name;
       var status = user.profile.status_text;
 
+      console.log("USER : ", user);
+      console.log("STATUS: " , status_text);
       if(status.includes("Kitchen")){
           const result = await client.chat.postMessage({
           channel: user.id,
