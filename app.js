@@ -67,10 +67,9 @@ app.event('app_home_opened', async ({ event, client, context }) => {
       if (err) {
         console.log(err.stack)
       } else {
-        console.log(res.rows[0])
+        console.log("Result",res.rows[0])
       }
     });
-    console.log("USER COUNTS: ", usersPerRoom)
     const result = await client.views.publish({
 
       /* the user that opened your app's app home */
