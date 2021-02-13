@@ -62,12 +62,10 @@ app.event('user_change', async ({ event, client, context }) => {
             console.log('error usersWithKitchenStatus:', err.stack);
           } else {
             console.log('Result usersWithKitchenStatus:',res);
+            processResuls(res,sendKitchenChatLink);
           }
         });
-        const result = await client.chat.postMessage({
-              channel: user.id,
-              text: "Would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
-            });
+        
       } else {
         users.upsertUserWithStatus(user.id, false);
       }
@@ -76,6 +74,19 @@ app.event('user_change', async ({ event, client, context }) => {
       console.log(error);
   }
 });
+
+function processResuls (res, callback){
+  if(res.rowCount > 2){
+    callback();
+  }
+},
+
+funcion sendKitchenChatLink(){
+  const result = await client.chat.postMessage({
+              channel: user.id,
+              text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
+            });
+}
 
 app.event('app_home_opened', async ({ event, client, context }) => {
   try {
