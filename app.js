@@ -100,7 +100,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
       if (err) {
         console.log(err.stack);
       } else {
-        console.log("Result",res.rows[0]);
+        console.log("Result",res.rows);
       }
     });
     const result = await client.views.publish({
