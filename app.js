@@ -46,6 +46,7 @@ app.event('user_change', async ({ event, client, context }) => {
       var status = user.profile.status_text;
 
       if(status.includes("Kitchen")){       
+        console.log('~ Status is Kitchen');
         users.upsertUserWithStatus(user.id, true);
         users.queryUsersInRooms((err,res)=>{
           // any chats with <5 people?
@@ -76,6 +77,7 @@ app.event('user_change', async ({ event, client, context }) => {
         });
         
       } else {
+        console.log('~ Status NOT Kitchen');
         users.upsertUserWithStatus(user.id, false);
       }
   }
@@ -85,7 +87,7 @@ app.event('user_change', async ({ event, client, context }) => {
 });
 
 function processResuls (res, callback){
-  console.log('~In ProcessResult:');
+  console.log('~In ProcessResult:', res.rowCount);
   if(res.rowCount > 2){
     callback(true);
   }
