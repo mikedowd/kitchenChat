@@ -20,6 +20,7 @@ module.exports = {
         return db.query(availableUsersNotChatting, null, callback);
     },
     updateUsersWithChatId : function(chatId, userIds){
+        console.log("updateUsersWithChatId chat id: ", chatId);
         db.query(updateUsers, [chatId, userIds]);
     }
 }
