@@ -63,7 +63,13 @@ app.event('user_change', async ({ event, client, context }) => {
 app.event('app_home_opened', async ({ event, client, context }) => {
   try {
     /* view.publish is the method that your app uses to push a view to the Home tab */
-    var usersPerRoom = users.queryUsersInRooms();
+    var usersPerRoom = users.queryUsersInRooms((err,res) => {
+      if (err) {
+        console.log(err.stack)
+      } else {
+        console.log(res.rows[0])
+      }
+    });
     console.log("USER COUNTS: ", usersPerRoom)
     const result = await client.views.publish({
 

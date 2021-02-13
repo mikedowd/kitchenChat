@@ -7,7 +7,7 @@ module.exports = {
     upsertUser: (slackId, inKitchen) => {
         db.query(upsert, [slackId, inKitchen]);
     },
-    queryUsersInRooms : function(){
-        return db.query(checkUserCount);
+    queryUsersInRooms : function(callback){
+        return db.query(checkUserCount, null, callback);
     }
 }
