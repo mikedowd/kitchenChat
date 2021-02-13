@@ -122,6 +122,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
       if (err) {
         console.log(err.stack);
       } else {
+          console.log("Building home blocks: ");
           for(var row in res.rows){
               var block = {
                 "type" : "section",
@@ -134,6 +135,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
           }
       }
     });
+    console.log(homeBlocks);
     const result = await client.views.publish({
 
       /* the user that opened your app's app home */
