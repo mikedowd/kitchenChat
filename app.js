@@ -152,7 +152,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
           for(var i = 0; i < res.rowCount; i ++){
               if(true){
                 var row = res.rows[i];
-                var text = "There are currently " + row.current_users + " users in room " + row.chat_id;                
+                var text = "There are currently this many users in the room";                
                 var block = {
                   "type" : "section",
                   "text" : {
