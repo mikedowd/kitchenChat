@@ -1,4 +1,5 @@
 const { App } = require('@slack/bolt');
+const db = require('./db');
 var users = require('./users');
 // Initializes your app with your bot token and signing secret
 const app = new App({
@@ -49,6 +50,25 @@ app.event('user_change', async ({ event, client, context }) => {
         console.log('~ Status is Kitchen');
         users.upsertUserWithStatus(user.id, true);
         users.queryUsersInRooms((err,res)=>{
+          if (err){
+            console.log('error queryUsersInRooms:', err.stack);
+          } else {
+            let openChatRooms = res.rows.filter(row => row.current_users<5);
+            if (openChatRooms.length>0){
+              let chatId = openChatRooms[0].chat_id;
+              console.log("sending chat id " + chatId + " to user " + user.id);
+              users.updateUsersWithChatId(chatId, user.id);
+              sendChatLink(user.id, chatId);
+            } else {
+              console.log("no open chat rooms");
+              // let usersNotChatting = res.find(row => row.chat_id == null);
+              // if (usersNotChatting && usersNotChatting.current_users >= 2){
+              //   // create new chat id
+              //   // update users with chat id
+              //   // send chat link to those users
+              // }
+            }
+          }
           // any chats with <5 people?
             // select one of those chats
             // update this user with that chat id
@@ -58,24 +78,24 @@ app.event('user_change', async ({ event, client, context }) => {
             // update those users with that chat id
             // send meet link to those users
         });
-        users.getUsersWithKitchenStatus((err,res) => {
-          if (err) {
-            console.log('error usersWithKitchenStatus:', err.stack);
-          } else {
-            console.log('Result usersWithKitchenStatus:',res);
+        // users.getUsersWithKitchenStatus((err,res) => {
+        //   if (err) {
+        //     console.log('error usersWithKitchenStatus:', err.stack);
+        //   } else {
+        //     console.log('Result usersWithKitchenStatus:',res);
             
-            processResuls(res, function (sendKitchenChatLink){
-              if(sendKitchenChatLink){
-                console.log('~In sendKitchenChatLink:');
-                const result = client.chat.postMessage({
-                  channel: user.id,
-                  text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
-                });
+        //     processResuls(res, function (sendKitchenChatLink){
+        //       if(sendKitchenChatLink){
+        //         console.log('~In sendKitchenChatLink:');
+        //         const result = client.chat.postMessage({
+        //           channel: user.id,
+        //           text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
+        //         });
 
-              }
-            });
-          }
-        });
+        //       }
+        //     });
+        //   }
+        // });
         /*const result = client.chat.postMessage({
                   channel: user.id,
                   text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
@@ -90,6 +110,13 @@ app.event('user_change', async ({ event, client, context }) => {
       console.log(error);
   }
 });
+
+function sendChatLink(userId, chatId){
+  const result = client.chat.postMessage({
+    channel: userId,
+    text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack" + chatId + "|Join here!>"
+  });
+}
 
 function processResuls (res, callback){
   console.log('~In ProcessResult:', res.rowCount);
