@@ -168,17 +168,17 @@ app.event('app_home_opened', async ({ event, client, context }) => {
         }
 
         console.log("Home blocks: " , homeBlocks);
-        const result = await client.views.publish({
+    });
+    const result = await client.views.publish({
 
-          /* the user that opened your app's app home */
-          user_id: event.user,
-          /* the view object that appears in the app home*/
-          view: {
-            type: 'home',
-            callback_id: 'home_view',
-            blocks: homeBlocks
-          }
-        });
+      /* the user that opened your app's app home */
+      user_id: event.user,
+      /* the view object that appears in the app home*/
+      view: {
+        type: 'home',
+        callback_id: 'home_view',
+        blocks: homeBlocks
+      }
     });
   }
   catch (error) {
