@@ -145,7 +145,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
         "text": "With this slackbot, you can join a conversation with your coworkers that are 'in the kitchen'. To do this, simply set your slack status to 'Kitchen'"
       }
     }];
-    var usersPerRoom = users.queryUsersInRooms((err,res) => {
+    await users.queryUsersInRooms((err,res) => {
       if (err) {
         console.log(err.stack);
       } else {
@@ -166,11 +166,9 @@ app.event('app_home_opened', async ({ event, client, context }) => {
             }
           }
         }
-
         console.log("Home blocks: " , homeBlocks);
     });
     const result = await client.views.publish({
-
       /* the user that opened your app's app home */
       user_id: event.user,
       /* the view object that appears in the app home*/
