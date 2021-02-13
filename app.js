@@ -45,23 +45,31 @@ app.event('user_change', async ({ event, client, context }) => {
       var user = event.user;
       var status = user.profile.status_text;
 
-      if(status.includes("Kitchen")){
-        users.upsertUser(user.id, true);
-
+      if(status.includes("Kitchen")){       
+        users.upsertUserWithStatus(user.id, true);
+        users.queryUsersInRooms((err,res)=>{
+          // any chats with <5 people?
+            // select one of those chats
+            // update this user with that chat id
+            // send meet link to this user
+          // are there >=3 people waiting, not in chat?
+            // create a new chat -> with that id, create the meet name
+            // update those users with that chat id
+            // send meet link to those users
+        });
         users.getUsersWithKitchenStatus((err,res) => {
           if (err) {
             console.log('error usersWithKitchenStatus:', err.stack);
           } else {
-          console.log('Result usersWithKitchenStatus:',res);
+            console.log('Result usersWithKitchenStatus:',res);
+            const result = await client.chat.postMessage({
+              channel: user.id,
+              text: "Would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
+            });
           }
         });
-
-        const result = await client.chat.postMessage({
-          channel: user.id,
-          text: "Would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
-        });
       } else {
-        users.upsertUser(user.id, false);
+        users.upsertUserWithStatus(user.id, false);
       }
   }
   catch(error){
