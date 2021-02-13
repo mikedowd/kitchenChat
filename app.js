@@ -48,7 +48,7 @@ app.event('user_change', async ({ event, client, context }) => {
       if(status.includes("Kitchen")){
         users.upsertUser(user.id, true);
 
-        var usersWithKitchenStatus = users.getUsersWithKitchenStatus((err,res) => {
+        users.getUsersWithKitchenStatus((err,res) => {
           if (err) {
             console.log("error usersWithKitchenStatus:", err.stack);
           } else {
