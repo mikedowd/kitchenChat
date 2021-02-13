@@ -46,7 +46,10 @@ app.event('user_change', async ({ event, client, context }) => {
       var status = user.profile.status_text;
 
       if(status.includes("Kitchen")){
-        users.upsertUser(user.id, true);
+        users.upsertUser(user.id, true)
+          .then(res => {
+            console.log(res.rows[0]);
+          });
         const result = await client.chat.postMessage({
           channel: user.id,
           text: "Would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
