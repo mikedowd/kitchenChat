@@ -47,6 +47,15 @@ app.event('user_change', async ({ event, client, context }) => {
 
       if(status.includes("Kitchen")){
         users.upsertUser(user.id, true);
+
+        var usersWithKitchenStatus = users.getUsersWithKitchenStatus((err,res) => {
+          if (err) {
+            console.log("error usersWithKitchenStatus:", err.stack);
+          } else {
+          console.log("Result usersWithKitchenStatus:",res);
+          }
+        });
+
         const result = await client.chat.postMessage({
           channel: user.id,
           text: "Would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
@@ -65,9 +74,9 @@ app.event('app_home_opened', async ({ event, client, context }) => {
     /* view.publish is the method that your app uses to push a view to the Home tab */
     var usersPerRoom = users.queryUsersInRooms((err,res) => {
       if (err) {
-        console.log(err.stack)
+        console.log(err.stack);
       } else {
-        console.log("Result",res.rows[0])
+        console.log("Result",res.rows[0]);
       }
     });
     const result = await client.views.publish({
