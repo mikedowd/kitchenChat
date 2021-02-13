@@ -50,9 +50,9 @@ app.event('user_change', async ({ event, client, context }) => {
 
         users.getUsersWithKitchenStatus((err,res) => {
           if (err) {
-            console.log("error usersWithKitchenStatus:", err.stack);
+            console.log('error usersWithKitchenStatus:', err.stack);
           } else {
-          console.log("Result usersWithKitchenStatus:",res);
+          console.log('Result usersWithKitchenStatus:',res);
           }
         });
 
