@@ -145,14 +145,13 @@ app.event('app_home_opened', async ({ event, client, context }) => {
         "text": "With this slackbot, you can join a conversation with your coworkers that are 'in the kitchen'. To do this, simply set your slack status to 'Kitchen'"
       }
     }];
-    await users.queryUsersInRooms((err,res) => {
+    users.queryUsersInRooms((err,res) => {
       if (err) {
         console.log(err.stack);
       } else {
           for(var i = 0; i < res.rowCount; i ++){
-              if(true){
                 var row = res.rows[i];
-                var text = "There are currently this many users in the room";                
+                var text = "There are currently " + row.current_users + " users in room " + row.chat_id;                
                 var block = {
                   "type" : "section",
                   "text" : {
@@ -161,20 +160,19 @@ app.event('app_home_opened', async ({ event, client, context }) => {
                   }
                 }
                 homeBlocks.push(block);
-            }
           }
+
+          client.views.publish({
+            /* the user that opened your app's app home */
+            user_id: event.user,
+            /* the view object that appears in the app home*/
+            view: {
+              type: 'home',
+              callback_id: 'home_view',
+              blocks: homeBlocks
+            }
+          });
         }
-        console.log("Home blocks here: " , homeBlocks);
-    });
-    const result = await client.views.publish({
-      /* the user that opened your app's app home */
-      user_id: event.user,
-      /* the view object that appears in the app home*/
-      view: {
-        type: 'home',
-        callback_id: 'home_view',
-        blocks: homeBlocks
-      }
     });
   }
   catch (error) {
