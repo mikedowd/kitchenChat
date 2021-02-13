@@ -53,12 +53,12 @@ app.event('user_change', async ({ event, client, context }) => {
           if (err){
             console.log('error queryUsersInRooms:', err.stack);
           } else {
-            let openChatRooms = res.rows.filter(row => row.current_users<5);
+            let openChatRooms = res.rows.filter(row => row.current_users<5 && row.chat_id!=null);
             if (openChatRooms.length>0){
               let chatId = openChatRooms[0].chat_id;
               console.log("sending chat id " + chatId + " to user " + user.id);
-              users.updateUsersWithChatId(chatId, user.id);
-              sendChatLink(user.id, chatId);
+              users.updateUsersWithChatId(chatId, [user.id]);
+              sendChatLink(client, user.id, chatId);
             } else {
               console.log("no open chat rooms");
               // let usersNotChatting = res.find(row => row.chat_id == null);
@@ -111,7 +111,7 @@ app.event('user_change', async ({ event, client, context }) => {
   }
 });
 
-function sendChatLink(userId, chatId){
+function sendChatLink(client, userId, chatId){
   const result = client.chat.postMessage({
     channel: userId,
     text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack" + chatId + "|Join here!>"
