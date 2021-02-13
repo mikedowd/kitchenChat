@@ -8,9 +8,6 @@ const pool = new Pool({
 });
 
 module.exports = {
-    testMethod : function(){
-        console.log("Imported successfully");
-    },
     query: (text, params, callback) => {
       return pool.query(text, params, callback)
     },
