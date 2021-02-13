@@ -53,7 +53,7 @@ app.event('user_change', async ({ event, client, context }) => {
           if (err){
             console.log('error queryUsersInRooms:', err.stack);
           } else {
-            let openChatRooms = res.rows.filter(row => row.current_users<5);
+            let openChatRooms = res.rows.filter(row => row.current_users<5 && row.chat_id!=null);
             if (openChatRooms.length>0){
               let chatId = openChatRooms[0].chat_id;
               console.log("sending chat id " + chatId + " to user " + user.id);
