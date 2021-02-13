@@ -123,7 +123,8 @@ app.event('app_home_opened', async ({ event, client, context }) => {
         console.log(err.stack);
       } else {
           console.log("Building home blocks: ");
-          for(var row in res.rows){
+          for(var i = 0; i < res.rowCount; i ++){
+              var row = res.rows[i];
               var block = {
                 "type" : "section",
                 "text" : {
