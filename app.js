@@ -65,6 +65,11 @@ app.event('user_change', async ({ event, client, context }) => {
             processResuls(res, function (sendKitchenChatLink){
               if(sendKitchenChatLink){
                 console.log('~In sendKitchenChatLink:');
+                const result = client.chat.postMessage({
+                  channel: user.id,
+                  text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
+                });
+
               }
             });
           }
