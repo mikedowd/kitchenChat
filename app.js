@@ -149,14 +149,17 @@ app.event('app_home_opened', async ({ event, client, context }) => {
       if (err) {
         console.log(err.stack);
       } else {
-          console.log("Building home blocks: ");
+          console.log("Response: " , res);
           for(var i = 0; i < res.rowCount; i ++){
               var row = res.rows[i];
+              console.log("row: ", row);
+              var text = "There are currently " + "x " + "users in room " + i+1;
+
               var block = {
                 "type" : "section",
                 "text" : {
                   "type" : "mrkdwn",
-                  "text" : "There are currently x users in x room"
+                  "text" : text
                 }
               }
               homeBlocks.push(block);
