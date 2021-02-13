@@ -150,7 +150,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
         console.log(err.stack);
       } else {
           for(var i = 0; i < res.rowCount; i ++){
-              if(row.chat_id !== null){
+              if(true){
                 var row = res.rows[i];
                 var text = "There are currently " + row.current_users + "users in room " + row.chatId + "\n";
                 console.log(text);
