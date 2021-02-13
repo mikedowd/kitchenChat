@@ -83,6 +83,7 @@ app.event('user_change', async ({ event, client, context }) => {
         //     console.log('error usersWithKitchenStatus:', err.stack);
         //   } else {
         //     console.log('Result usersWithKitchenStatus:',res);
+            
         //     processResuls(res, function (sendKitchenChatLink){
         //       if(sendKitchenChatLink){
         //         console.log('~In sendKitchenChatLink:');
@@ -95,6 +96,10 @@ app.event('user_change', async ({ event, client, context }) => {
         //     });
         //   }
         // });
+        /*const result = client.chat.postMessage({
+                  channel: user.id,
+                  text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
+                });*/
         
       } else {
         console.log('~ Status NOT Kitchen');
@@ -123,45 +128,51 @@ function processResuls (res, callback){
 app.event('app_home_opened', async ({ event, client, context }) => {
   try {
     /* view.publish is the method that your app uses to push a view to the Home tab */
+    var homeBlocks = [ {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Welcome to Kitchen Chat!* :coffee:"
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "With this slackbot, you can opt into a conversation with your other coworkers that are 'in the kitchen'. To do this, simply set your slack status to kitchen"
+      }
+    }];
     var usersPerRoom = users.queryUsersInRooms((err,res) => {
       if (err) {
         console.log(err.stack);
       } else {
-        console.log("Result",res.rows[0]);
+          console.log("Building home blocks: ");
+          for(var i = 0; i < res.rowCount; i ++){
+              var row = res.rows[i];
+              var block = {
+                "type" : "section",
+                "text" : {
+                  "type" : "mrkdwn",
+                  "text" : "There are currently x users in x room"
+                }
+              }
+              homeBlocks.push(block);
+          }
       }
     });
+    console.log(homeBlocks);
     const result = await client.views.publish({
 
       /* the user that opened your app's app home */
       user_id: event.user,
-
       /* the view object that appears in the app home*/
       view: {
         type: 'home',
         callback_id: 'home_view',
-
-        /* body of the view */
-
-        //TODO loop through rooms, adding a block per room. 
-        blocks: [
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "*Welcome to Kitchen Chat!* :coffee:"
-            }
-          },
-          {
-            "type": "divider"
-          },
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "With this slackbot, you can opt into a conversation with your other coworkers that are 'in the kitchen'. To do this, simply set your slack status to kitchen"
-            }
-          }
-        ]
+        blocks: homeBlocks
       }
     });
   }
