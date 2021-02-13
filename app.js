@@ -142,7 +142,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "With this slackbot, you can opt into a conversation with your other coworkers that are 'in the kitchen'. To do this, simply set your slack status to kitchen"
+        "text": "With this slackbot, you can join a conversation with your coworkers that are 'in the kitchen'. To do this, simply set your slack status to 'Kitchen'"
       }
     }];
     var usersPerRoom = users.queryUsersInRooms((err,res) => {
@@ -150,11 +150,11 @@ app.event('app_home_opened', async ({ event, client, context }) => {
         console.log(err.stack);
       } else {
           for(var i = 0; i < res.rowCount; i ++){
-              if(true){
+              if(row.chat_id !== null){
                 var row = res.rows[i];
-                console.log("row: ", row);
-                var text = "There are currently " + row.current_users + "users in room " + row.chatId;
-
+                var text = "There are currently " + row.current_users + "users in room " + row.chatId + "\n";
+                console.log(text);
+                
                 var block = {
                   "type" : "section",
                   "text" : {
@@ -165,25 +165,25 @@ app.event('app_home_opened', async ({ event, client, context }) => {
                 homeBlocks.push(block);
             }
           }
-      }
-    });
-    console.log("Home blocks: " , homeBlocks);
-    const result = await client.views.publish({
+        }
 
-      /* the user that opened your app's app home */
-      user_id: event.user,
-      /* the view object that appears in the app home*/
-      view: {
-        type: 'home',
-        callback_id: 'home_view',
-        blocks: homeBlocks
-      }
+        console.log("Home blocks: " , homeBlocks);
+        const result = await client.views.publish({
+
+          /* the user that opened your app's app home */
+          user_id: event.user,
+          /* the view object that appears in the app home*/
+          view: {
+            type: 'home',
+            callback_id: 'home_view',
+            blocks: homeBlocks
+          }
+        });
     });
   }
   catch (error) {
     console.error(error);
   }
-  console.log('~~awaiting say');
 });
 
 (async () => {
