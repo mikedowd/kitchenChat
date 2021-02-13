@@ -63,6 +63,8 @@ app.event('user_change', async ({ event, client, context }) => {
 app.event('app_home_opened', async ({ event, client, context }) => {
   try {
     /* view.publish is the method that your app uses to push a view to the Home tab */
+    var usersPerRoom = users.queryUsersInRooms();
+    console.log("USER COUNTS: ", usersPerRoom)
     const result = await client.views.publish({
 
       /* the user that opened your app's app home */
@@ -74,6 +76,8 @@ app.event('app_home_opened', async ({ event, client, context }) => {
         callback_id: 'home_view',
 
         /* body of the view */
+
+        //TODO loop through rooms, adding a block per room. 
         blocks: [
           {
             "type": "section",
