@@ -4,12 +4,12 @@ let checkUserCount = "SELECT COUNT(slack_id) AS current_users, chat_id FROM kitc
 let queryUsersWithKitchenStatus = "Select slack_id, in_kitchen, chat_id from kitchen_users where in_kitchen = true;"
 let upsert = "INSERT INTO kitchen_users(slack_id, in_kitchen, chat_id) VALUES($1,$2,null) ON CONFLICT(slack_id) DO UPDATE SET in_kitchen=EXCLUDED.in_kitchen, chat_id=null;";
 let availableUsersNotChatting = "SELECT slack_id FROM kitchen_users WHERE in_kitchen = true AND chat_id is null;";
-let updateUsers = "UPDATE kitchen_users SET in_kitchen='f' WHERE slack_id IN ($1);";
+let updateUsers = "UPDATE kitchen_users SET chat_id=1 WHERE slack_id IN ($1);";
 
 module.exports = {
-    upsertUserWithStatus: (slackId, inKitchen) => {
+    upsertUserWithStatus: (slackId, inKitchen, callback) => {
         console.log("upsertUserWithStatus");
-        db.query(upsert, [slackId, inKitchen]);
+        db.query(upsert, [slackId, inKitchen], callback);
     },
     queryUsersInRooms : function(callback){
         console.log("queryUsersInRooms");
@@ -22,9 +22,9 @@ module.exports = {
         console.log("getAvailableUsersNotChatting");
         return db.query(availableUsersNotChatting, null, callback);
     },
-    updateUsersWithChatId : function(chatId, userIds){
+    updateUsersWithChatId : function(chatId, userIds, callback){
         console.log("updateUsersWithChatId chat id: ", chatId);
         console.log(updateUsers);
-        db.query(updateUsers, [userIds]);
+        db.query(updateUsers, [userIds], callback);
     }
 }

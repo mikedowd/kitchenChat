@@ -48,35 +48,45 @@ app.event('user_change', async ({ event, client, context }) => {
 
       if(status.includes("Kitchen")){       
         console.log('~ Status is Kitchen');
-        users.upsertUserWithStatus(user.id, true);
-        users.queryUsersInRooms((err,res)=>{
+        users.upsertUserWithStatus(user.id, true, (err,res)=>{
           if (err){
-            console.log('error queryUsersInRooms:', err.stack);
+            console.log('ERROR upsertUserWithStatus:', err.stack);
           } else {
-            let openChatRooms = res.rows.filter(row => row.current_users<5 && row.chat_id!=null);
-            if (openChatRooms.length>0){
-              let chatId = openChatRooms[0].chat_id;
-              console.log("sending chat id " + chatId + " to user " + user.id);
-              users.updateUsersWithChatId(chatId, [user.id]);
-              sendChatLink(client, user.id, chatId);
-            } else {
-              console.log("no open chat rooms");
-              // let usersNotChatting = res.find(row => row.chat_id == null);
-              // if (usersNotChatting && usersNotChatting.current_users >= 2){
-              //   // create new chat id
-              //   // update users with chat id
-              //   // send chat link to those users
-              // }
-            }
+            users.queryUsersInRooms((err,res)=>{
+              if (err){
+                console.log('ERROR queryUsersInRooms:', err.stack);
+              } else {
+                let openChatRooms = res.rows.filter(row => row.current_users<5 && row.chat_id!=null);
+                if (openChatRooms.length>0){
+                  let chatId = openChatRooms[0].chat_id;
+                  console.log("sending chat id " + chatId + " to user " + user.id);
+                  users.updateUsersWithChatId(chatId, [user.id], (err,res)=>{
+                    if (err){
+                      console.log('ERROR updateUsersWithChatId:', err.stack);
+                    } else {
+                      sendChatLink(client, user.id, chatId);
+                    }
+                  });
+                } else {
+                  console.log("no open chat rooms");
+                  // let usersNotChatting = res.find(row => row.chat_id == null);
+                  // if (usersNotChatting && usersNotChatting.current_users >= 2){
+                  //   // create new chat id
+                  //   // update users with chat id
+                  //   // send chat link to those users
+                  // }
+                }
+              }
+              // any chats with <5 people?
+                // select one of those chats
+                // update this user with that chat id
+                // send meet link to this user
+              // are there >=3 people waiting, not in chat?
+                // create a new chat -> with that id, create the meet name
+                // update those users with that chat id
+                // send meet link to those users
+            });
           }
-          // any chats with <5 people?
-            // select one of those chats
-            // update this user with that chat id
-            // send meet link to this user
-          // are there >=3 people waiting, not in chat?
-            // create a new chat -> with that id, create the meet name
-            // update those users with that chat id
-            // send meet link to those users
         });
         // users.getUsersWithKitchenStatus((err,res) => {
         //   if (err) {
@@ -103,7 +113,11 @@ app.event('user_change', async ({ event, client, context }) => {
         
       } else {
         console.log('~ Status NOT Kitchen');
-        users.upsertUserWithStatus(user.id, false);
+        users.upsertUserWithStatus(user.id, false, (err,res)=>{
+          if (err){
+            console.log('ERROR upsertUserWithStatus:', err.stack)
+          }
+        });
       }
   }
   catch(error){
