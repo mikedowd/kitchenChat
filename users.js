@@ -25,7 +25,6 @@ module.exports = {
     },
     updateUsersWithChatId : function(chatId, userIds, callback){
         console.log("updateUsersWithChatId chat id: ", chatId);
-        console.log(updateUsers);
         db.query(updateUsers, [chatId,userIds.join(',')], callback);
     },
     addChat: function(callback){

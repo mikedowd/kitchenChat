@@ -88,19 +88,12 @@ app.event('user_change', async ({ event, client, context }) => {
                         });
                       }
                     });
-                    // create new chat id
-                    // update users with chat id
-                    // send chat link to those users
                   } else {
                     console.log('not enough users waiting yet');
                     sendWaitingMessage(client, user.id);
                   }
                 }
               }
-              // are there >=3 people waiting, not in chat?
-                // create a new chat -> with that id, create the meet name
-                // update those users with that chat id
-                // send meet link to those users
             });
           }
         });
