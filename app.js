@@ -60,7 +60,7 @@ app.event('user_change', async ({ event, client, context }) => {
                 if (openChatRooms.length>0){
                   let chatId = openChatRooms[0].chat_id;
                   console.log("sending chat id " + chatId + " to user " + user.id);
-                  users.updateUsersWithChatId(chatId, user.id, (err,res)=>{
+                  users.updateUsersWithChatId(chatId, [user.id], (err,res)=>{
                     if (err){
                       console.log('ERROR updateUsersWithChatId:', err.stack);
                     } else {
