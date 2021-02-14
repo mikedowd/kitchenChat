@@ -71,19 +71,21 @@ app.event('user_change', async ({ event, client, context }) => {
                   console.log("no open chat rooms");
                   let usersNotChatting = res.rows.find(row => row.chat_id == null);
                   if (usersNotChatting && usersNotChatting.current_users >= 3){
-                    console.log('2 or more users waiting. starting new chat room.');
+                    console.log('3 or more users waiting. starting new chat room.');
                     users.addChat((err,res)=>{
                       if (err){
                         console.log("ERROR addChat: ", err.stack);
                       } else {
                         let chatId = res.rows[0].id;
-                        // users.updateUsersWithChatId(chatId, [user.id], (err,res)=>{
-                        //   if (err){
-                        //     console.log('ERROR updateUsersWithChatId:', err.stack);
-                        //   } else {
-                        //     sendChatLink(client, user.id, chatId);
-                        //   }
-                        // });
+                        users.getAvailableUsersNotChatting((err,res)=>{
+                          if (err){
+                            console.log('ERROR getAvailableUsersNotChatting:', err.stack);
+                          } else {
+                            let userIds = res.rows.map(row => row.slack_id);
+                            users.updateUsersWithChatId(chatId, userIds, null);
+                            userIds.map(userId => sendChatLink(client, userId, chatId));
+                          }
+                        });
                       }
                     });
                     // create new chat id
@@ -95,10 +97,6 @@ app.event('user_change', async ({ event, client, context }) => {
                   }
                 }
               }
-              // any chats with <5 people?
-                // select one of those chats
-                // update this user with that chat id
-                // send meet link to this user
               // are there >=3 people waiting, not in chat?
                 // create a new chat -> with that id, create the meet name
                 // update those users with that chat id
@@ -106,29 +104,6 @@ app.event('user_change', async ({ event, client, context }) => {
             });
           }
         });
-        // users.getUsersWithKitchenStatus((err,res) => {
-        //   if (err) {
-        //     console.log('error usersWithKitchenStatus:', err.stack);
-        //   } else {
-        //     console.log('Result usersWithKitchenStatus:',res);
-            
-        //     processResuls(res, function (sendKitchenChatLink){
-        //       if(sendKitchenChatLink){
-        //         console.log('~In sendKitchenChatLink:');
-        //         const result = client.chat.postMessage({
-        //           channel: user.id,
-        //           text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
-        //         });
-
-        //       }
-        //     });
-        //   }
-        // });
-        /*const result = client.chat.postMessage({
-                  channel: user.id,
-                  text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack1|Join here!>"
-                });*/
-        
       } else {
         console.log('~ Status NOT Kitchen');
         users.upsertUserWithStatus(user.id, false, (err,res)=>{
