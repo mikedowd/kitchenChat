@@ -126,6 +126,7 @@ function sendWaitingMessage(client, userId){
 }
 
 function sendChatLink(client, userId, chatId){
+  console.log('send chat id ' + chatId + ' to user ' + userId);
   const result = client.chat.postMessage({
     channel: userId,
     text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack" + chatId + "|Join here!>"
