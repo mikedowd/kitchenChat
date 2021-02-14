@@ -152,7 +152,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
           var text = "";
           for(var i = 0; i < res.rowCount; i ++){
                 var row = res.rows[i];
-                text += ">There are currently " + row.current_users + " users in room " + row.chat_id + "<http://g.co/meet/kitchenslack" + row.chatId + "|Join now!>\n";                
+                text += ">There are currently " + row.current_users + " users in room " + row.chat_id + " .<http://g.co/meet/kitchenslack" + row.chatId + "|Join now!>\n";                
           }
           var block = {
             "type" : "section",
