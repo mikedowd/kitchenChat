@@ -149,18 +149,19 @@ app.event('app_home_opened', async ({ event, client, context }) => {
       if (err) {
         console.log(err.stack);
       } else {
+          var text = "";
           for(var i = 0; i < res.rowCount; i ++){
                 var row = res.rows[i];
-                var text = "There are currently " + row.current_users + " users in room " + row.chat_id;                
-                var block = {
-                  "type" : "section",
-                  "text" : {
-                    "type" : "mrkdwn",
-                    "text" : text
-                  }
-                }
-                homeBlocks.push(block);
+                text += ">There are currently " + row.current_users + " users in room " + row.chat_id + "\n";                
           }
+          var block = {
+            "type" : "section",
+            "text" : {
+              "type" : "mrkdwn",
+              "text" : text
+            }
+          }
+          homeBlocks.push(block);
 
           client.views.publish({
             /* the user that opened your app's app home */
