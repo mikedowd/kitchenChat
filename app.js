@@ -146,7 +146,7 @@ app.event('user_change', async ({ event, client, context }) => {
 function sendWaitingMessage(client, userId){
   const result = client.chat.postMessage({
     channel: userId,
-    text: "Waiting for other folks to come to the kitchen...";
+    text: "Waiting for other folks to come to the kitchen..."
   });
 }
 
