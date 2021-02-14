@@ -69,7 +69,7 @@ app.event('user_change', async ({ event, client, context }) => {
                   });
                 } else {
                   console.log("no open chat rooms");
-                  let usersNotChatting = res.find(row => row.chat_id == null);
+                  let usersNotChatting = res.rows.find(row => row.chat_id == null);
                   if (usersNotChatting && usersNotChatting.current_users >= 2){
                     console.log('2 or more users waiting. starting new chat room.');
                     users.addChat((err,res)=>{
