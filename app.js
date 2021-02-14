@@ -69,12 +69,30 @@ app.event('user_change', async ({ event, client, context }) => {
                   });
                 } else {
                   console.log("no open chat rooms");
-                  // let usersNotChatting = res.find(row => row.chat_id == null);
-                  // if (usersNotChatting && usersNotChatting.current_users >= 2){
-                  //   // create new chat id
-                  //   // update users with chat id
-                  //   // send chat link to those users
-                  // }
+                  let usersNotChatting = res.find(row => row.chat_id == null);
+                  if (usersNotChatting && usersNotChatting.current_users >= 2){
+                    console.log('2 or more users waiting. starting new chat room.');
+                    users.addChat((err,res)=>{
+                      if (err){
+                        console.log("ERROR addChat: ", err.stack);
+                      } else {
+                        let chatId = res.rows[0].id;
+                        // users.updateUsersWithChatId(chatId, [user.id], (err,res)=>{
+                        //   if (err){
+                        //     console.log('ERROR updateUsersWithChatId:', err.stack);
+                        //   } else {
+                        //     sendChatLink(client, user.id, chatId);
+                        //   }
+                        // });
+                      }
+                    });
+                    // create new chat id
+                    // update users with chat id
+                    // send chat link to those users
+                  } else {
+                    console.log('not enough users waiting yet');
+                    sendWaitingMessage(client, user.id);
+                  }
                 }
               }
               // any chats with <5 people?
@@ -124,6 +142,13 @@ app.event('user_change', async ({ event, client, context }) => {
       console.log(error);
   }
 });
+
+function sendWaitingMessage(client, userId){
+  const result = client.chat.postMessage({
+    channel: userId,
+    text: "Waiting for other folks to come to the kitchen...";
+  });
+}
 
 function sendChatLink(client, userId, chatId){
   const result = client.chat.postMessage({

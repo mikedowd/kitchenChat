@@ -5,6 +5,7 @@ let queryUsersWithKitchenStatus = "Select slack_id, in_kitchen, chat_id from kit
 let upsert = "INSERT INTO kitchen_users(slack_id, in_kitchen, chat_id) VALUES($1,$2,null) ON CONFLICT(slack_id) DO UPDATE SET in_kitchen=EXCLUDED.in_kitchen, chat_id=null;";
 let availableUsersNotChatting = "SELECT slack_id FROM kitchen_users WHERE in_kitchen = true AND chat_id is null;";
 let updateUsers = "UPDATE kitchen_users SET chat_id=($1) WHERE slack_id IN ($2);";
+let insertChat = "INSERT INTO kitchen_chats(dtCreated) VALUES(NOW()) RETURNING id;"
 
 module.exports = {
     upsertUserWithStatus: (slackId, inKitchen, callback) => {
@@ -26,5 +27,9 @@ module.exports = {
         console.log("updateUsersWithChatId chat id: ", chatId);
         console.log(updateUsers);
         db.query(updateUsers, [chatId,userIds.join(',')], callback);
+    },
+    addChat: function(callback){
+        console.log("addChat");
+        db.query(insertChat, null, callback);
     }
 }
