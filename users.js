@@ -9,7 +9,7 @@ let insertChat = "INSERT INTO kitchen_chats(dtCreated) VALUES(NOW()) RETURNING i
 
 module.exports = {
     upsertUserWithStatus: (slackId, inKitchen, callback) => {
-        console.log("upsertUserWithStatus");
+        console.log("upsertUserWithStatus user: " + slackId + " status: " + inKitchen);
         db.query(upsert, [slackId, inKitchen], callback);
     },
     queryUsersInRooms : function(callback){
