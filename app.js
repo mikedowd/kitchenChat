@@ -114,7 +114,7 @@ app.event('user_change', async ({ event, client, context }) => {
 function sendWaitingMessage(client, userId){
   const result = client.chat.postMessage({
     channel: userId,
-    text: "Waiting for other folks to come to the kitchen..."
+    text: "Waiting for other folks to come to the kitchen...  :astro_hanging_out:"
   });
 }
 
@@ -122,7 +122,7 @@ function sendChatLink(client, userId, chatId){
   console.log('send chat id ' + chatId + ' to user ' + userId);
   const result = client.chat.postMessage({
     channel: userId,
-    text: "Hey, would you like to join kitchen chat? <http://g.co/meet/kitchenslack" + chatId + "|Join here!>"
+    text: "Hi! Would you like to join a kitchen chat? <http://g.co/meet/kitchenslack" + chatId + "|Join here!>"
   });
 }
 
@@ -160,7 +160,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
           var text = "";
           for(var i = 0; i < res.rowCount; i ++){
                 var row = res.rows[i];
-                text += ">There are currently " + row.current_users + " users in room " + row.chat_id + ". <http://g.co/meet/kitchenslack" + row.chatId + "|Join now!>\n";                
+                text += ">There are currently " + row.current_users + " users in room " + row.chat_id + ".";
           }
           var block = {
             "type" : "section",
