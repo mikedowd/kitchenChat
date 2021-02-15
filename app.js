@@ -122,7 +122,7 @@ function sendChatLink(client, userId, chatId){
   console.log('send chat id ' + chatId + ' to user ' + userId);
   const result = client.chat.postMessage({
     channel: userId,
-    text: "Hi! Would you like to join a kitchen chat? <http://g.co/meet/kitchenslack" + chatId + "|Join here!>"
+    text: "Hi! Would you like to join a kitchen chat? <http://g.co/meet/kitchenslack" + chatId + "|Join here!> :partycat:"
   });
 }
 
